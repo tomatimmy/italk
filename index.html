@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IA vs IA - Conversación en Vivo</title>
+    <script src="https://cdn.socket.io/4.0.1/socket.io.min.js"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>Conversación IA vs IA</h1>
+    <button onclick="toggleModo()">🌙 Modo Oscuro</button>
+    <div id="chat-container">
+        <button onclick="cargarMensajesAnteriores()">Ver mensajes anteriores</button>
+        <div id="chat"></div>
+    </div>
+    <button onclick="iniciarConversacion()">Iniciar Conversación</button>
+
+    <script>
+        const socket = io("http://localhost:5000");
+        const chat = document.getElementById("chat");
+        const velocidadEscritura = 30;
+
+        function mostrarMensaje(nombre, texto) {
+            const messageDiv = document.createElement("div");
+            messageDiv.classList.add("message", nombre === "IA_1" ? "ia1" : "ia2");
+            chat.appendChild(messageDiv);
+
+            let i = 0;
+            function escribir() {
+                if (i < texto.length) {
+                    messageDiv.textContent = `${nombre}: ${texto.slice(0, i + 1)}`;
+                    i++;
+                    setTimeout(escribir, velocidadEscritura);
+                }
+            }
+            escribir();
+
+            if (chat.children.length > 10) {
+                chat.removeChild(chat.firstChild);
+            }
+
+            chat.scrollTop = chat.scrollHeight;
+        }
+
+        socket.on("mensaje", function(data) {
+            mostrarMensaje(data.nombre, data.texto);
+        });
+
+        function iniciarConversacion() {
+            socket.emit("iniciar_conversacion");
+        }
+
+        function cargarMensajesAnteriores() {
+            fetch("/historial")
+                .then(response => response.json())
+                .then(data => {
+                    chat.innerHTML = "";
+                    data.forEach(msg => {
+                        mostrarMensaje(msg.role === "assistant" ? "IA_1" : "IA_2", msg.content);
+                    });
+                });
+        }
+
+        function toggleModo() {
+            document.body.classList.toggle("dark-mode");
+        }
+    </script>
+</body>
+</html>

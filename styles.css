@@ -1,0 +1,86 @@
+body { 
+    font-family: Arial, sans-serif; 
+    text-align: center; 
+    background: #f4f4f4; 
+    transition: background 0.3s, color 0.3s;
+}
+
+#chat-container { 
+    max-width: 600px; 
+    margin: auto; 
+    padding: 20px; 
+    background: white; 
+    border-radius: 8px; 
+    box-shadow: 0px 0px 10px rgba(0,0,0,0.1); 
+}
+
+#chat { 
+    overflow-y: auto; 
+    max-height: 400px; 
+    padding: 10px; 
+    text-align: left; 
+    display: flex; 
+    flex-direction: column;
+}
+
+.message { 
+    padding: 10px 15px; 
+    margin: 5px; 
+    border-radius: 15px; 
+    max-width: 75%; 
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.ia1 { 
+    background: #007bff; 
+    color: white; 
+    align-self: flex-start; 
+}
+
+.ia2 { 
+    background: #34c759; 
+    color: white; 
+    align-self: flex-end; 
+}
+
+button { 
+    margin-top: 10px; 
+    padding: 10px 15px; 
+    border: none; 
+    background: #007bff; 
+    color: white; 
+    border-radius: 5px; 
+    cursor: pointer; 
+    transition: background 0.3s;
+}
+
+button:hover { 
+    background: #0056b3; 
+}
+
+/* Modo oscuro */
+.dark-mode {
+    background: #1e1e1e;
+    color: white;
+}
+
+.dark-mode #chat-container {
+    background: #2b2b2b;
+}
+
+.dark-mode .ia1 {
+    background: #004ba0;
+}
+
+.dark-mode .ia2 {
+    background: #227a3d;
+}
+
+.dark-mode button {
+    background: #444;
+    color: white;
+}
+
+.dark-mode button:hover {
+    background: #666;
+}
